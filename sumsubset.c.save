@@ -1,0 +1,155 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "qlib.h"
+
+/*
+Given a set of non-negative integers, and a value sum, 
+determine if there is a subset of the given set with sum equal to given sum.
+Examples: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
+Output:  True  //There is a subset (4, 5) with sum 9.
+*/
+
+typedef struct subset_ {
+    int arr[32];
+    int mc;
+    int incomp[32];
+} subset;
+
+subset ss[32] = {0};
+
+int debug = 1;
+
+void
+fill (int i, int *ref, int sum)
+{
+    int cref[32] = {0}, set = 0;
+    int j = i -1, mc, diff = 0;
+
+    memcpy(cref, ref, sizeof(int)*32);
+    if (debug) {
+        printf("Find new path for i %d at j %d mc %d\n", i, j, ss[i].mc);
+        getchar();
+    }
+   
+
+    diff = sum;
+    while ((j >= 0) && diff) {
+        if (cref[j]) {
+            mc = ss[i].mc;
+            ss[i].arr[mc] = j;
+            ss[i].mc++;
+            ss[i].incomp[mc] = 1;
+            diff = sum - j;
+            sum = diff;
+            cref[j]--;
+            if (debug) {
+                printf("Adding set %d at mc %d diff %d, cref %d %d\n",
+                        j, mc, diff, cref[j], cref[j-1]);
+                getchar();
+            } 
+            j = diff;
+            set = 1;
+        }
+        if (!set) j--;
+        set = 0;
+    }
+    
+    if (diff) {
+        mc = ss[i].mc;
+        while (mc) {
+            if (ss[i].incomp[mc]) {
+                if (debug) {
+                    printf(" undoing for i %d %d at mc %d \n", i, ss[i].arr[mc], mc);
+                    getchar();
+                }
+                ss[i].arr[mc] = 0;
+                ss[i].mc--;
+                ss[i].incomp[mc] = 0;
+            }
+            mc--;
+        }
+    }
+}
+
+
+int 
+main (int argc, char *argv[])
+{
+ int *a, ref[32] = {0}, sum, i;
+ 
+  a = get_from_main(argc, argv);
+  
+  /* Assume first letter is the sum to be found */
+  sum = a[0];
+  if (sum >= 32) {
+     return 0;
+  }
+
+  ref[0] = 0;
+  for (i = 1; i < argc -1; i++) {
+       if (a[i] <= sum) {
+           ref[a[i]] = 1;
+           if (debug) {
+               printf("Ref for %d ref %d \n", a[i], ref[a[i]]);
+            }
+       }
+  }
+  
+      
+  i = 0;
+  while (i <= sum) {
+      if (ref[i]) {
+         ss[i].arr[ss[i].mc] = i;
+         ss[i].mc = 1;
+         ss[i].incomp[ss[i].mc] = 0;
+         if (debug) {
+             printf("Fill first at %d mc  %d\n", i, ss[i].mc);
+         }
+         i++;
+         break;
+      }
+      i++;
+  }
+
+   if (ss[sum].arr[0] == sum) {
+       printf(" %d itself is the only path\n", sum);
+       return 1;
+   }
+   
+   int ci;
+
+#if 0 
+   while (i <= sum) {
+       ci = i;
+       ss[ci].arr[ss[ci].mc] = ci;
+       ss[ci].incomp[ss[ci].mc] = 0;
+       ss[ci].mc = 1;
+       if (debug) {
+           printf("Fill at %d mc  %d\n", ci, ss[ci].mc);
+       }
+       fill(i, ref, i);
+       i++;
+   }
+#endif
+    fill(sum, ref, sum);
+
+   i = 0;
+   //while (i <= sum) { 
+       i = sum;
+       if (ss[i].arr[0]) {
+            ci = 0;
+            printf("\npath to %d are :: ", i);
+            while (ci < ss[i].mc) {
+               printf("<< %d>>", ss[i].arr[ci]);
+               ci++;
+           }
+       }
+       i++;
+  // }
+
+    printf("\n");
+    return 1;
+}
+
+

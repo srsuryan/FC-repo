@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "treelib.h"
+
+void
+inorder (node_td *node)
+{
+    if (!node) return;
+
+    inorder(node->left);
+
+    printf(" <<%d>> ", node->i);
+
+    inorder(node->right);
+}
+
+void
+insert_val (node_td *node, int i, node_td *prev)
+{
+    node_td *nn;
+
+    if (!node) {
+        if (i > prev->i) {
+            if (prev->right != NULL) {
+                printf("Something wrong\n");
+                return;
+            }
+            nn = calloc(1, sizeof(node_td));
+            nn->i = i;
+            prev->right = nn;
+            return;
+        } else {
+            if (prev->left != NULL) {
+                printf("Something wrong\n");
+                return;
+            }
+            nn = calloc(1, sizeof(node_td));
+            nn->i = i;
+            prev->left = nn;
+            return;
+        }
+    }
+
+    prev = node;
+    if (node->i < i) {
+        insert_val(node->right, i, prev);
+    } else {
+        insert_val(node->left, i, prev);
+    }
+}
+
+node_td *
+cons_tree (int a[])
+{
+    int i = 0;
+    node_td *root;
+    
+    root = calloc(1, sizeof(node_td));
+    root->i = a[i];
+
+    while (a[i] != INVALID) {
+        insert_val(root, a[i]);
+        i++;
+    }
+    return root;
+}
+   
+void
+print_tr (node_td *node, char *str)
+{
+    printf("%s\n ", str);
+    inorder(node);
+    printf("\n");
+}

@@ -1,0 +1,31 @@
+
+
+1) strstr api - used for checking string rotation
+http://www.geeksforgeeks.org/a-program-to-check-if-strings-are-rotations-of-each-other/
+
+2) interleave
+http://www.geeksforgeeks.org/print-all-interleavings-of-given-two-strings/
+
+3) LCS
+http://www.geeksforgeeks.org/printing-longest-common-subsequence/
+variations of LCS
+    http://www.geeksforgeeks.org/minimum-cost-make-two-strings-identical/
+
+
+4) TCOMPLX
+Time complexity in a recursive solution such as permutation is 2^n
+
+5) given a set of words in an alien language in sorted order find the
+order of characters
+http://www.geeksforgeeks.org/given-sorted-dictionary-find-precedence-characters/
+- Build a matrix (graph) and do Topological sorting. This will give the order of characters
+
+6) G longestsubstr.c
+http://www.geeksforgeeks.org/find-the-longest-substring-with-k-unique-characters-in-a-given-string/
+
+7) LCE -> longest common extention
+http://www.geeksforgeeks.org/longest-common-extension-lce-set-1-introduction-and-naive-method/
+
+4+
+1) http://www.geeksforgeeks.org/shortest-superstring-problem/
+2) http://www.geeksforgeeks.org/given-a-string-print-all-possible-palindromic-partition/

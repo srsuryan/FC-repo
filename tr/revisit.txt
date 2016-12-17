@@ -1,0 +1,22 @@
+/*
+ gcc nextorder.c ../utillib.c treelib.c ../queuelib.c
+ */
+1) get floor and ciel of no. in BST...find_range.c
+2) given 2 or more arrays check if these arrays will form same BST (use floor/ceil to find where they would fit in)...checkarraysamebst.c
+3) use floor/ceil to do preordertotree construction
+4) ***** Min Heap/Max Heap *************
+
+5) Convert BST to DLL
+6) convert a LL to BST - convdlltotree.c
+7) Merge two trees ...convert into DLL and merge then reconvert into tree
+8) Distance between two nodes of a BST *************** commonnode.c
+     Do a inorder traversal using non-recursion (use stack) 
+     once one value is found, start marking flag for all nodes in stack, add distance w.r.t to value found
+     once 2nd node is found, pop the stack and the lowest node whose flag is set, return
+
+9) next inorder node of a BT - nextorder.c
+10) Sorted Array to BST convarrbt.c
+Verify:
+=====
+convert preorder traversal to BST ;
+move from right to left in the array and construct tree :)
