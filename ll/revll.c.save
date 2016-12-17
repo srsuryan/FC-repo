@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include "ll.h"
+#include "util.h"
+
+sll *start2 = NULL, **last;
+
+#define RPTC 3
+int debug = 1;
+
+sll *
+rev_fn (sll *a[], int max)
+{
+    sll *node, *node2;
+    int count = 0;
+
+    if (max < 1) return a[0];
+
+    if (max == 2) {
+        a[2]->next = a[1];
+        a[1]->next = a[0];
+        a[0]->next = NULL;
+        return NULL;
+    } else if (max == 1) {
+        a[1]->next = a[0];
+        a[0]->next = NULL;
+        return NULL;
+    }
+
+    count = 0;
+
+    count = max - 2;
+    while (count) {
+        node = a[count];
+        node->next = a[count-1];
+        count--;
+    }
+    if (debug) {
+        node = a[max-2];
+        printf("Return max %d n1 %d \n", max, node->i);
+        getchar();
+    }
+    return a[max-2];
+}
+
+int
+main (int argc, char *argv[])
+{
+    sll *a[32] = {0};
+    sll *ll = NULL, *l, *node, *start, *f;
+    int *b, count, mc = RPTC;
+
+    b = get_from_main(argc, argv);
+    start = create_list(b);
+    node = start;
+
+    if (!node) return 1;
+
+    do {
+        count = 0;
+        memset(a, 0, sizeof(void *)*32);
+        while ((count <= mc+1) && (node)) {
+            a[count] = node;
+            count++;
+            node = node->next;
+        }
+        count--;
+        printf(" count %d \n", count);
+        getchar();
+        f = rev_fn(a, count);
+
+        if (ll) {
+            ll->next = f;
+        } else {
+            start = f;
+        }
+        if (!f) {
+            if (!start) {
+                start = a[count];
+            } else {
+                ll->next = count == 2 ? a[2] : a[1];
+            }
+            break;
+        }
+        
+        ll = a[0];
+        a[0]->next = a[count-1];
+        print_sl(start);
+        getchar();
+        node = a[count-1];
+    } while (node);
+
+    print_sl(start);
+    return 1;
+}
